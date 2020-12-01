@@ -28,8 +28,7 @@ exports.NewUser = (req, res) => {
     var username = req.body.username,
         password = req.body.password,
         email = req.body.email;
-    
-    let verifier = new Verifier("at_CweVKXru5IidEhmmoCYqN7wWF7ad5");
+        
     User.findOne({$or: [{username},{email}]}).exec((err, doc) => {
         if(!doc) {
             bcrypt.genSalt(10, (err, salt) => {
