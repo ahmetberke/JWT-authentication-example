@@ -29,9 +29,6 @@ exports.NewUser = (req, res) => {
         password = req.body.password,
         email = req.body.email;
     
-    // I used a ready-made package for email verification. You can also make a verification yourself.
-    // https://www.npmjs.com/package/email-verifier
-    
     let verifier = new Verifier("at_CweVKXru5IidEhmmoCYqN7wWF7ad5");
     User.findOne({$or: [{username},{email}]}).exec((err, doc) => {
         if(!doc) {
