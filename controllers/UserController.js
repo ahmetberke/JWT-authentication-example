@@ -2,7 +2,6 @@ const   Express = require('express'),
         Verifier = require("email-verifier"),
         mongoose = require('mongoose'),
         bcrypt = require('bcryptjs');
-const { findById } = require('../models/user');
 
 const   User = require('../models/user');
 
@@ -28,7 +27,7 @@ exports.NewUser = (req, res) => {
     var username = req.body.username,
         password = req.body.password,
         email = req.body.email;
-        
+
     User.findOne({$or: [{username},{email}]}).exec((err, doc) => {
         if(!doc) {
             bcrypt.genSalt(10, (err, salt) => {
