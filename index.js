@@ -4,9 +4,11 @@ const   Express = require('express'),
         bodyparser = require('body-parser'),
         bcryptjs = require('bcryptjs');
 
+require('dotenv').config()
+
 // Connect to DB (I'm using Mongodb/Atlas)
 const   dbConnect = require('./helper/db');
-dbConnect("mongodb+srv://admin:dbaSvxPVJq3U4zEZ@cluster0.7r0k9.mongodb.net/authEx?retryWrites=true&w=majority")
+dbConnect(process.env.DB_URL);
 
 // Define PORT
 const   PORT = process.env.PORT || 4000

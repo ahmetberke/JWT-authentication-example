@@ -1,10 +1,32 @@
 const   Express = require('express'),
         Verifier = require("email-verifier"),
         mongoose = require('mongoose'),
-        bcrypt = require('bcryptjs');
+        bcrypt = require('bcryptjs'),
+        authanticate = require('../Authentication/authenticate');
 
 const   User = require('../models/user');
 
+exports.Login = (req, res) => {
+    var email = req.body.email,
+        password = req.body.password;
+    authanticate(email, password, (done) => {
+        if(done.success) {
+            res.cookie('token', done.token, {expires: new Date(Date.now() + 5 * 100000)})
+            return res.status(200).send(done);
+        }
+        return res.status(401).send(done);
+    });
+
+}
+
+exports.Logout = (req, res) => {
+    if(req.cookies.token){
+        res.clearCookie('token');
+        res.status(200).send({message:"Logout User"})
+    }else{
+        res.status(400).send({message:"not already logged in"})
+    } 
+}
 
 exports.GetUser = (req,res) => {
     var id = req.params.id;
